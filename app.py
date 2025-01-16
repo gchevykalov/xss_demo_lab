@@ -28,8 +28,11 @@ def submit():
 
 @app.route("/page")
 def render():
-    comments = get_comments(search_query)
-    return render_template("index.html", comments=comments, search_query=search_query)
+    global search_query
+    tmp_search_query = search_query
+    search_query = None
+    comments = get_comments(tmp_search_query)
+    return render_template("index.html", comments=comments, search_query=tmp_search_query)
 
 
 def add_comment(comment):
