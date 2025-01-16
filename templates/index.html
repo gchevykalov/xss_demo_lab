@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+{% autoescape false %}
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>XSS Demo</title>
+  </head>
+
+  <body>
+
+    <!-- Header -->
+    <header>
+      <h1>XSS Demo</h1>
+    </header>
+
+    <!-- Search form -->
+    <form action="/filter" method="GET">
+      <input type="text" name="q" 
+             placeholder="Search query" autocomplete="off" />
+      <input type="submit" value="Filter comments" />
+    </form>
+
+    <!-- Comments -->
+    {% if not search_query %}
+      <h3>Showing all comments:</h3>
+    {% else %}
+      <h3>Showing comments containing "{{ search_query }}":</h3>
+    {% endif %}
+
+    {% for comment in comments %}
+      <div>
+        <p>{{ comment }}</p>
+      </div>
+    {% endfor %}
+
+    <!-- Write form -->
+    <form action="/submit" method="POST">
+      <input type="text" name="comment" 
+             placeholder="Comment" autocomplete="off" />
+      <input type="submit" value="Submit new comment" />
+    </form>
+
+  </body>
+</html>
+{% endautoescape %}
